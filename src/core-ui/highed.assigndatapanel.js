@@ -208,6 +208,7 @@ highed.AssignDataPanel = function(parent, dataTable, extraClass) {
 
   function getAllMergedLabelAndData() {
     var seriesValues = [];
+    console.log(options);
     options.forEach(function(serie, i) {
       var arr = {},
       extraColumns = [],
@@ -437,8 +438,6 @@ highed.AssignDataPanel = function(parent, dataTable, extraClass) {
       title: 'Series ' + ((seriesIndex || index) + 1) + ' - ' + capitalizeFirstLetter(seriesType)
     });
     seriesTypeSelect.selectByIndex(index);
-    
-    chartTypeOptions = highed.meta.charttype[seriesType.toLowerCase()];
 
     if (options[seriesIndex || index] && options[seriesIndex || index].values) {
       previousValues = options[seriesIndex || index].values;
