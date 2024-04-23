@@ -250,7 +250,7 @@ highed.DrawerEditor = function(parent, options, planCode) {
       chartPreview,
       highedChartContainer,
       builtInOptions.templates
-    );
+    ),
     createChartPage = highed.CreateChartPage(
       splitter.bottom,
       properties.features,
@@ -474,7 +474,7 @@ highed.DrawerEditor = function(parent, options, planCode) {
         feature
       );
     });
-    toolboxEntries = addedOptions;
+
     // resizeChart(toolbox.width());
   }
 

@@ -72,6 +72,7 @@ highed.ChartTemplateSelector = function(parent, chartPreview) {
 
   function createSampleBtn(target, sample) {
     var btn,
+    sampleBtn,
       dset = highed.samples.get(sample);
 
     if (!dset) {

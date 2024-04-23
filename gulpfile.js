@@ -18,6 +18,7 @@ var dest = 'dist/',
     zip = require('gulp-zip'),
     run = require('gulp-run'),
     header = require('gulp-header'),
+    footer = require('gulp-footer'),
     license = fs.readFileSync(__dirname + '/LICENSE'),
     //The order is important, so we don't do wildcard
     sources = require(__dirname + '/res/filelist.json'),
@@ -102,6 +103,7 @@ gulp.task('complete', ['default', 'cache-thumbnails', 'bundled-modules', 'with-a
   .pipe(concat(name + '.complete.js'))
   .pipe(uglify())
   .pipe(header(license, packageJson))
+  .pipe(footer('export default highed;'))
   .pipe(gulp.dest(dest))
   .pipe(gulp.dest(electronDest))
   //.pipe(gulp.src([dest + '/' + name + 'min.css']))

@@ -99,11 +99,11 @@ highed.DataPage = function(parent, options, chartPreview, chartFrame, props) {
     dataImportBtn = highed.dom.cr(
       'button',
       'highed-import-button highed-ok-button highed-sm-button',
-      'Import');
+      'Import'),
     dataExportBtn = highed.dom.cr(
       'button',
       'highed-import-button highed-ok-button highed-hide-sm',
-      'Export Data');
+      'Export Data'),
     dataClearBtn = highed.dom.cr(
       'button',
       'highed-import-button highed-ok-button highed-sm-button',
@@ -139,9 +139,9 @@ highed.DataPage = function(parent, options, chartPreview, chartFrame, props) {
         dataTable.clearData();
         assignDataPanel.init();
       }
-    }),
+    });
     
-    iconsContainer = highed.dom.cr('div', 'highed-toolbox-icons'),
+    var iconsContainer = highed.dom.cr('div', 'highed-toolbox-icons'),
     isVisible = true;
 
     function init() {

@@ -134,13 +134,14 @@ highed.List = function(parent, responsive, props, planCode) {
         doInclude = true,
         container,
         masterNode,
-        def;
+        def,
+        nodeHeading;
 
       options = chartPreview.options.getCustomized(); //userOptions;//chartPreview.options.getCustomized();
       
       if (highed.isArr(group.options)) {
         table = highed.dom.cr('div', 'highed-customizer-table');
-        warningContainer = highed.dom.cr('div', 'highed-customize-warning-container'),
+        var warningContainer = highed.dom.cr('div', 'highed-customize-warning-container'),
         warning = highed.dom.cr('div', 'highed-customize-warning', 'You need to be on a paid plan for this to work in production');
         doInclude = shouldInclude(group);
 

@@ -4931,7 +4931,8 @@ highed.List = function(parent, responsive, props, planCode) {
         doInclude = true,
         container,
         masterNode,
-        def;
+        def,
+        nodeHeading;
 
       options = chartPreview.options.getCustomized(); //userOptions;//chartPreview.options.getCustomized();
       
@@ -4952,7 +4953,7 @@ highed.List = function(parent, responsive, props, planCode) {
         
         container = highed.dom.cr('div', 'highed-customize-group' + (group.dropdown ? ' highed-list-general-drop-down' : ' highed-list-normal'), null, 'highed-list-header-' + highed.L(group.text));
         masterNode = highed.dom.cr('div', 'highed-customize-master-dropdown');
-        var nodeHeading = highed.dom.cr(
+        nodeHeading = highed.dom.cr(
           'div',
           'highed-customizer-table-heading' + (group.dropdown ? ' highed-list-general-drop-down-header' : ''),
           highed.L(group.text)
@@ -12025,11 +12026,11 @@ highed.SimpleDataPage = function(parent,assignDataParent, options, chartPreview,
     dataImportBtn = highed.dom.cr(
       'button',
       'highed-import-button highed-ok-button highed-sm-button',
-      'Import'),
+      'Import');
     dataExportBtn = highed.dom.cr(
       'button',
       'highed-import-button highed-ok-button highed-hide-sm',
-      'Export Data'),
+      'Export Data');
     dataClearBtn = highed.dom.cr(
       'button',
       'highed-import-button highed-ok-button highed-sm-button',
@@ -14140,6 +14141,7 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
   
   function sizeChart(w, h) {
     if ((!w || w.length === 0) && (!h || h.length === 0)) {
+      fixedSize = false;
       resHeight.value = '';
       resWidth.value = '';
       resizeChart();
@@ -14150,6 +14152,11 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
       //   paddingLeft: (s.w / 2) - (w / 2) + 'px',
       //   paddingTop: (s.h / 2) - (h / 2) + 'px'
       // });
+
+      fixedSize = {
+        w: w,
+        h: h
+      };
 
       w = (w === 'auto' ?  s.w : w || s.w - 100);
       h = (h === 'auto' ?  s.h : h || s.h - 100);
@@ -17704,6 +17711,7 @@ highed.ChartTemplateSelector = function(parent, chartPreview) {
 
   function createSampleBtn(target, sample) {
     var btn,
+    sampleBtn,
       dset = highed.samples.get(sample);
 
     if (!dset) {
@@ -23106,6 +23114,7 @@ highed.DrawerEditor = function(parent, options, planCode) {
         feature
       );
     });
+
     // resizeChart(toolbox.width());
   }
 

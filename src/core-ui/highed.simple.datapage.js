@@ -139,9 +139,9 @@ highed.SimpleDataPage = function(parent,assignDataParent, options, chartPreview,
         dataTable.clearData();
         assignDataPanel.init();
       }
-    }),
+    });
     
-    iconsContainer = highed.dom.cr('div', 'highed-toolbox-icons'),
+    var iconsContainer = highed.dom.cr('div', 'highed-toolbox-icons'),
     isVisible = true;
 
     function init() {
