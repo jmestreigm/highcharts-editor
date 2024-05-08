@@ -817,7 +817,7 @@ highed.ChartPreview = function(parent, attributes) {
     
     constr = [template.constructor || 'Chart'];
 
-    //highed.clearObj(templateOptions);
+    highed.clearObj(templateOptions);
 
     if (customizedOptions.xAxis) {
       delete customizedOptions.xAxis;

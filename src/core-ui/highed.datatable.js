@@ -45,7 +45,7 @@ function parseCSV(inData, delimiter) {
       '\t': 0
     };
   //The only thing CSV formats have in common..
-  rows = (csv || '').replace(/\r\n/g, '\n').split('\n');
+  var rows = (csv || '').replace(/\r\n/g, '\n').split('\n');
   // If there's no delimiter, look at the first few rows to guess it.
 
   if (!options.delimiter) {

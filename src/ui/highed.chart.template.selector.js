@@ -72,14 +72,13 @@ highed.ChartTemplateSelector = function(parent, chartPreview) {
 
   function createSampleBtn(target, sample) {
     var btn,
-    sampleBtn,
       dset = highed.samples.get(sample);
 
     if (!dset) {
       return;
     }
 
-    btn = sampleBtn = highed.dom.cr('div', 'highed-ok-button', dset.title);
+    btn = highed.dom.cr('div', 'highed-ok-button', dset.title);
 
     highed.dom.on(btn, 'click', function() {
       if (

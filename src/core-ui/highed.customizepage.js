@@ -729,22 +729,16 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
   
   function sizeChart(w, h) {
     if ((!w || w.length === 0) && (!h || h.length === 0)) {
-      fixedSize = false;
       resHeight.value = '';
       resWidth.value = '';
       resizeChart();
     } else {
       var s = highed.dom.size(chartFrame);
 
-      // highed.dom.style(chartFrame, {
-      //   paddingLeft: (s.w / 2) - (w / 2) + 'px',
-      //   paddingTop: (s.h / 2) - (h / 2) + 'px'
-      // });
-
-      fixedSize = {
-        w: w,
-        h: h
-      };
+      highed.dom.style(chartFrame, {
+        paddingLeft: (s.w / 2) - (w / 2) + 'px',
+        paddingTop: (s.h / 2) - (h / 2) + 'px'
+      });
 
       w = (w === 'auto' ?  s.w : w || s.w - 100);
       h = (h === 'auto' ?  s.h : h || s.h - 100);

@@ -124,8 +124,6 @@ highed.List = function(parent, responsive, props, planCode) {
       entry.forEach(function(thing) {
         selectGroup(thing, false, false, detailIndex, filteredBy, filter);
       });
-
-      highlighted = false;
     }
         //This function has mutated into a proper mess. Needs refactoring.
     function selectGroup(group, table, options, detailIndex, filteredBy, filter) {

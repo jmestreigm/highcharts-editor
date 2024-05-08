@@ -105,8 +105,7 @@ highed.ChartCustomizer = function(parent, attributes, chartPreview, planCode) {
     customCodeBox = highed.dom.cr(
       'textarea',
       'highed-custom-code highed-box-size highed-stretch'
-    ),
-    highlighted = false;
+    );
 
   //If we're on mobile, completely disable the advanced view
   if (highed.onPhone()) {
@@ -490,7 +489,6 @@ highed.ChartCustomizer = function(parent, attributes, chartPreview, planCode) {
     entry.forEach(function(thing) {
       //selectGroup(thing);
     });
-    highlighted = false;
     highed.emit('UIAction', 'SimplePropCatChoose', id);
   });
 
