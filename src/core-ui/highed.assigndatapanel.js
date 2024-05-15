@@ -208,7 +208,6 @@ highed.AssignDataPanel = function(parent, dataTable, extraClass) {
 
   function getAllMergedLabelAndData() {
     var seriesValues = [];
-    console.log(options);
     options.forEach(function(serie, i) {
       var arr = {},
       extraColumns = [],
