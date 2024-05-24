@@ -318,16 +318,20 @@ highed.ChartPreview = function(parent, attributes) {
       };
 
       function setupAnnotationEvents(eventName, type) {
-        Highcharts.wrap(Highcharts.Annotation.prototype, eventName, function(proceed, shapeOptions) {
+        Highcharts.wrap(Highcharts.Annotation.prototype, eventName, function(proceed) {
           proceed.apply(this, Array.prototype.slice.call(arguments, 1))
-          var annotation = this[type][this[type].length - 1];
+          var annotationObject = this[type][this[type].length - 1];
+          var annotation = annotationObject.annotation;
           
-          (annotation.element).addEventListener('click', function(e) {
+
+          (annotation.chart.renderTo).addEventListener('click', function(e) {
             highed.dom.nodefault(e);
             if (isAnnotating && annotationType === 'delete') {
               var optionIndex = customizedOptions.annotations.findIndex(function(element) {
                 return element.id === annotation.options.id
               });
+
+              console.log("index to delete", optionIndex);
 
               chart.removeAnnotation(annotation.options.id);
               customizedOptions.annotations.splice(optionIndex, 1);
@@ -335,7 +339,7 @@ highed.ChartPreview = function(parent, attributes) {
             }
           });
 
-          (annotation.element).addEventListener('mousedown', function(e) {
+          (annotation.chart.renderTo).addEventListener('mousedown', function(e) {
             if (!chart.activeAnnotation && (isAnnotating && annotationType === 'drag')) {
               if (type === 'shapes') {
                 chart.activeAnnotationOptions = highed.merge({}, annotation.options);
@@ -441,6 +445,7 @@ highed.ChartPreview = function(parent, attributes) {
           chart.activeAnnotation = null;
           chart.activeAnnotationOptions = null;
           chart.annotationType = null;
+          updateAggregated(customizedOptions);
         }
       });
 

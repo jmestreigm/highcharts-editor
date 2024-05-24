@@ -791,6 +791,7 @@ highed.DrawerEditor = function(parent, options, planCode) {
   });
 */
   chartPreview.on('LoadProject', function () {
+    openDefaultPanel();
     setTimeout(function () {
  //   resQuickSel.selectByIndex(0);
     setToActualSize();
@@ -924,6 +925,18 @@ highed.DrawerEditor = function(parent, options, planCode) {
   createToolbar();
 
   resize();
+
+  
+
+  function openDefaultPanel() {
+    const customize = panel.getOptions().customize;
+    if (!panel.getCurrentOption() || panel.getCurrentOption().text !== 'Customize') {
+      if (customize) {
+        customizePage.setTabBehaviour(false)
+        customize.click();
+      }
+    }
+  }
 
   function setToActualSize() {
     resWidth.disabled = resHeight.disabled = 'disabled';

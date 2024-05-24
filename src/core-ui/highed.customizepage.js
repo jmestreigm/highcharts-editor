@@ -368,7 +368,7 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
       width = 66;
       if (highed.onTablet()) width = 64;
 
-      chartWidth = 28;
+      chartWidth = 50;
       highed.dom.style(backIcon, {
         display: "inline-block"
       });
@@ -446,7 +446,8 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
             function moveAt(pageX, pageY) {
               highed.dom.style(activeAnnotation, {
                 left: pageX - (btn.offsetWidth / 2 - 10) + 'px',
-                top: pageY - (btn.offsetHeight / 2 - 10) + 'px'
+                top: pageY - (btn.offsetHeight / 2 - 10) + 'px',
+                zIndex: 1
               });
             }
             moveAt(e.pageX, e.pageY);
@@ -511,7 +512,7 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
     if (highed.onTablet() && props.widths.tablet) width = props.widths.tablet;
     else if (highed.onPhone() && props.widths.phone) width = props.widths.phone;
     
-    chartWidth = 68;
+    chartWidth = 50;
 
     expand();
     setTimeout(function() {

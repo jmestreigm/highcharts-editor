@@ -4921,8 +4921,6 @@ highed.List = function(parent, responsive, props, planCode) {
       entry.forEach(function(thing) {
         selectGroup(thing, false, false, detailIndex, filteredBy, filter);
       });
-
-      highlighted = false;
     }
         //This function has mutated into a proper mess. Needs refactoring.
     function selectGroup(group, table, options, detailIndex, filteredBy, filter) {
@@ -7962,7 +7960,7 @@ function parseCSV(inData, delimiter) {
       '\t': 0
     };
   //The only thing CSV formats have in common..
-  rows = (csv || '').replace(/\r\n/g, '\n').split('\n');
+  var rows = (csv || '').replace(/\r\n/g, '\n').split('\n');
   // If there's no delimiter, look at the first few rows to guess it.
 
   if (!options.delimiter) {
@@ -13780,7 +13778,7 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
       width = 66;
       if (highed.onTablet()) width = 64;
 
-      chartWidth = 28;
+      chartWidth = 50;
       highed.dom.style(backIcon, {
         display: "inline-block"
       });
@@ -13858,7 +13856,8 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
             function moveAt(pageX, pageY) {
               highed.dom.style(activeAnnotation, {
                 left: pageX - (btn.offsetWidth / 2 - 10) + 'px',
-                top: pageY - (btn.offsetHeight / 2 - 10) + 'px'
+                top: pageY - (btn.offsetHeight / 2 - 10) + 'px',
+                zIndex: 1
               });
             }
             moveAt(e.pageX, e.pageY);
@@ -13923,7 +13922,7 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
     if (highed.onTablet() && props.widths.tablet) width = props.widths.tablet;
     else if (highed.onPhone() && props.widths.phone) width = props.widths.phone;
     
-    chartWidth = 68;
+    chartWidth = 50;
 
     expand();
     setTimeout(function() {
@@ -14141,22 +14140,16 @@ highed.CustomizePage = function(parent, options, chartPreview, chartFrame, props
   
   function sizeChart(w, h) {
     if ((!w || w.length === 0) && (!h || h.length === 0)) {
-      fixedSize = false;
       resHeight.value = '';
       resWidth.value = '';
       resizeChart();
     } else {
       var s = highed.dom.size(chartFrame);
 
-      // highed.dom.style(chartFrame, {
-      //   paddingLeft: (s.w / 2) - (w / 2) + 'px',
-      //   paddingTop: (s.h / 2) - (h / 2) + 'px'
-      // });
-
-      fixedSize = {
-        w: w,
-        h: h
-      };
+      highed.dom.style(chartFrame, {
+        paddingLeft: (s.w / 2) - (w / 2) + 'px',
+        paddingTop: (s.h / 2) - (h / 2) + 'px'
+      });
 
       w = (w === 'auto' ?  s.w : w || s.w - 100);
       h = (h === 'auto' ?  s.h : h || s.h - 100);
@@ -14779,7 +14772,6 @@ highed.AssignDataPanel = function(parent, dataTable, extraClass) {
 
   function getAllMergedLabelAndData() {
     var seriesValues = [];
-    console.log(options);
     options.forEach(function(serie, i) {
       var arr = {},
       extraColumns = [],
@@ -17690,7 +17682,7 @@ highed.ChartTemplateSelector = function(parent, chartPreview) {
     templates = highed.dom.cr('div', 'highed-chart-template-type-container'),
     catNode = highed.dom.cr('div', 'highed-chart-template-cat-desc'),
     selected = false,
-    templateTypeSelect = highed.DropDown(container, null, {
+    templateTypeSelect = highed.DropDown(container, '', {
       area: highed.resources.icons.area,
       line: highed.resources.icons.line,
       bar: highed.resources.icons.bar,
@@ -17711,14 +17703,13 @@ highed.ChartTemplateSelector = function(parent, chartPreview) {
 
   function createSampleBtn(target, sample) {
     var btn,
-    sampleBtn,
       dset = highed.samples.get(sample);
 
     if (!dset) {
       return;
     }
 
-    btn = sampleBtn = highed.dom.cr('div', 'highed-ok-button', dset.title);
+    btn = highed.dom.cr('div', 'highed-ok-button', dset.title);
 
     highed.dom.on(btn, 'click', function() {
       if (
@@ -18234,7 +18225,7 @@ highed.ChartCustomizer = function(parent, attributes, chartPreview, planCode) {
     list = highed.List(splitter, true, properties, planCode),
     body = highed.dom.cr('div'),//splitter.right,
     advSplitter = highed.HSplitter(advancedTab.body, {
-      leftWidth: 30
+      leftWidth: 40
     }),
     advBody = advSplitter.right,
     advTree = highed.Tree(advSplitter.left),
@@ -18248,8 +18239,7 @@ highed.ChartCustomizer = function(parent, attributes, chartPreview, planCode) {
     customCodeBox = highed.dom.cr(
       'textarea',
       'highed-custom-code highed-box-size highed-stretch'
-    ),
-    highlighted = false;
+    );
 
   //If we're on mobile, completely disable the advanced view
   if (highed.onPhone()) {
@@ -18633,7 +18623,6 @@ highed.ChartCustomizer = function(parent, attributes, chartPreview, planCode) {
     entry.forEach(function(thing) {
       //selectGroup(thing);
     });
-    highlighted = false;
     highed.emit('UIAction', 'SimplePropCatChoose', id);
   });
 
@@ -20199,16 +20188,20 @@ highed.ChartPreview = function(parent, attributes) {
       };
 
       function setupAnnotationEvents(eventName, type) {
-        Highcharts.wrap(Highcharts.Annotation.prototype, eventName, function(proceed, shapeOptions) {
+        Highcharts.wrap(Highcharts.Annotation.prototype, eventName, function(proceed) {
           proceed.apply(this, Array.prototype.slice.call(arguments, 1))
-          var annotation = this[type][this[type].length - 1];
-          
-          (annotation.element).addEventListener('click', function(e) {
+          var annotationObject = this[type][this[type].length - 1];
+          var annotation = annotationObject.annotation;
+          console.log(annotation);
+
+          (annotation.chart.renderTo).addEventListener('click', function(e) {
             highed.dom.nodefault(e);
             if (isAnnotating && annotationType === 'delete') {
               var optionIndex = customizedOptions.annotations.findIndex(function(element) {
                 return element.id === annotation.options.id
               });
+
+              console.log("index to delete", optionIndex);
 
               chart.removeAnnotation(annotation.options.id);
               customizedOptions.annotations.splice(optionIndex, 1);
@@ -20216,7 +20209,7 @@ highed.ChartPreview = function(parent, attributes) {
             }
           });
 
-          (annotation.element).addEventListener('mousedown', function(e) {
+          (annotation.chart.renderTo).addEventListener('mousedown', function(e) {
             if (!chart.activeAnnotation && (isAnnotating && annotationType === 'drag')) {
               if (type === 'shapes') {
                 chart.activeAnnotationOptions = highed.merge({}, annotation.options);
@@ -20322,6 +20315,7 @@ highed.ChartPreview = function(parent, attributes) {
           chart.activeAnnotation = null;
           chart.activeAnnotationOptions = null;
           chart.annotationType = null;
+          updateAggregated(customizedOptions);
         }
       });
 
@@ -20698,7 +20692,7 @@ highed.ChartPreview = function(parent, attributes) {
     
     constr = [template.constructor || 'Chart'];
 
-    //highed.clearObj(templateOptions);
+    highed.clearObj(templateOptions);
 
     if (customizedOptions.xAxis) {
       delete customizedOptions.xAxis;
@@ -23431,6 +23425,7 @@ highed.DrawerEditor = function(parent, options, planCode) {
   });
 */
   chartPreview.on('LoadProject', function () {
+    openDefaultPanel();
     setTimeout(function () {
  //   resQuickSel.selectByIndex(0);
     setToActualSize();
@@ -23564,6 +23559,18 @@ highed.DrawerEditor = function(parent, options, planCode) {
   createToolbar();
 
   resize();
+
+  
+
+  function openDefaultPanel() {
+    const customize = panel.getOptions().customize;
+    if (!panel.getCurrentOption() || panel.getCurrentOption().text !== 'Customize') {
+      if (customize) {
+        customizePage.setTabBehaviour(false)
+        customize.click();
+      }
+    }
+  }
 
   function setToActualSize() {
     resWidth.disabled = resHeight.disabled = 'disabled';

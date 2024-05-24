@@ -24,4 +24,18 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
-highed.plugins.import.install("CSV",{description:"Import a standard formatted CSV file.",treatAs:"csv",filter:function(t,i,r){r(!1,t)}});
+/*
+
+    Copyright (c) 2016, Highsoft
+
+    Licensed under the MIT license.
+
+*/
+
+highed.plugins.import.install('CSV', {
+    description: 'Import a standard formatted CSV file.',
+    treatAs: 'csv',
+    filter: function (data, options, fn) {
+        fn(false, data);
+    }
+});

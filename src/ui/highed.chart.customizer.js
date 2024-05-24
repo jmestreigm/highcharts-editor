@@ -91,7 +91,7 @@ highed.ChartCustomizer = function(parent, attributes, chartPreview, planCode) {
     list = highed.List(splitter, true, properties, planCode),
     body = highed.dom.cr('div'),//splitter.right,
     advSplitter = highed.HSplitter(advancedTab.body, {
-      leftWidth: 30
+      leftWidth: 40
     }),
     advBody = advSplitter.right,
     advTree = highed.Tree(advSplitter.left),

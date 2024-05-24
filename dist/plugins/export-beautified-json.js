@@ -24,4 +24,61 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
-highed.plugins.export.install("beautify-json",{title:"Beautified JSON",description:"Exports well-formatted JSON",dependencies:["https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.min.js","https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.min.css","https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/theme/neo.min.css","https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/mode/javascript/javascript.min.js"],downloadOutput:!0,exportTitle:"Download",create:function(e,t){this.textarea=highed.dom.cr("textarea"),highed.dom.ap(t,this.textarea),this.cm=CodeMirror.fromTextArea(this.textarea,{lineNumbers:!0,mode:"javascript",readOnly:!0,theme:"neo"}),this.update=function(e){var t=e.export.json();t.chart&&t.chart.renderTo&&delete t.chart.renderTo,this.cm.setValue(JSON.stringify(t,void 0,"    ")),this.cm.refresh(),this.cm.focus()},this.update.call(this,e)},show:function(e){this.update.call(this,e)},export:function(e,t,r){r(!1,this.cm.getValue(),"chart.json")}});
+/*
+
+    Copyright (c) 2016, Highsoft
+
+    Licensed under the MIT license.
+
+*/
+
+highed.plugins.export.install('beautify-json', {
+    title: 'Beautified JSON',
+    description: 'Exports well-formatted JSON',
+    dependencies: [
+        'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/theme/neo.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/mode/javascript/javascript.min.js' 
+    ], 
+    //Set this to true to trigger a download when doing the export.
+    //Useful for cases where the export is completely clientside.
+    downloadOutput: true,
+    //Set the title of the export button - default is "Export".
+    exportTitle: 'Download',   
+
+    //Called when creating the plugin
+    create: function (chart, node) {
+        this.textarea = highed.dom.cr('textarea');
+        highed.dom.ap(node, this.textarea);
+
+        this.cm = CodeMirror.fromTextArea(this.textarea, {
+            lineNumbers: true,
+            mode: 'javascript',
+            readOnly: true,
+            theme: 'neo'
+        });
+
+        this.update = function (chart) {
+            var json = chart.export.json();
+
+            if (json.chart && json.chart.renderTo) {
+                delete json.chart.renderTo;
+            }
+
+            this.cm.setValue(JSON.stringify(json, undefined, '    '));
+            this.cm.refresh();
+            this.cm.focus();
+        };
+
+        this.update.call(this, chart);
+    },                  
+    //Called when showing the UI. Also called when the options change.
+    show: function (chart) {
+        this.update.call(this, chart);
+    },
+    //Called when triggering an export
+    export: function (options, chart, fn) {
+        fn(false, this.cm.getValue(), 'chart.json');
+    }
+});
