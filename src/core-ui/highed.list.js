@@ -488,6 +488,8 @@ highed.List = function(parent, responsive, props, planCode) {
 
   function selectDropdown(dropdownKey) {
 
+    if(!dropdowns[dropdownKey])
+      return;
 
     if (dropdowns[dropdownKey].classList.contains('active')) {
       return true;

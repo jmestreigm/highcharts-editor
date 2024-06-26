@@ -797,14 +797,15 @@ highed.ChartPreview = function(parent, attributes) {
           compare: undefined
         };
       }
+      templateOptions[index] = highed.merge({}, template.config || {});
     });
     
     //templateOptions = highed.merge({}, template.config || {});
-    templateOptions[seriesIndex] = highed.merge({}, template.config || {});
+    // templateOptions[seriesIndex] = highed.merge({}, template.config || {});
     
     updateAggregated();
     init(aggregatedOptions);
-    //loadSeries();
+    loadSeries();
     emitChange();
   }
 
@@ -859,7 +860,7 @@ highed.ChartPreview = function(parent, attributes) {
     updateAggregated();
   }
 
-  function loadSeries() {/*
+  function loadSeries() {
     if (
       !gc(function(chart) {
         if (chart.options && chart.options.series) {
@@ -870,7 +871,7 @@ highed.ChartPreview = function(parent, attributes) {
     ) {
       customizedOptions.series = [];
     }
-    updateAggregated();*/
+    updateAggregated();
   }
 
   /** Load CSV data
@@ -897,18 +898,17 @@ highed.ChartPreview = function(parent, attributes) {
     lastLoadedSheet = false;
     lastLoadedLiveData = false;
     gc(function(chart) {
-      var axis;
 
-      // highed.setAttr(customizedOptions, 'series', []);
-      // highed.setAttr(aggregatedOptions, 'series', []);
+      highed.setAttr(customizedOptions, 'series', customizedOptions.series);
+      highed.setAttr(aggregatedOptions, 'series', aggregatedOptions.series);
 
-      // highed.setAttr(customizedOptions, 'plotOptions--series--animation', true);
-      // highed.setAttr(customizedOptions, 'data--csv', data.csv);
-      // highed.setAttr(customizedOptions, 'data--googleSpreadsheetKey', undefined);
-      // highed.setAttr(customizedOptions, 'data--itemDelimiter', data.itemDelimiter);
-      // highed.setAttr(customizedOptions, 'data--firstRowAsNames', data.firstRowAsNames);
-      // highed.setAttr(customizedOptions, 'data--dateFormat', data.dateFormat);
-      // highed.setAttr(customizedOptions, 'data--decimalPoint', data.decimalPoint);
+      highed.setAttr(customizedOptions, 'plotOptions--series--animation', true);
+      highed.setAttr(customizedOptions, 'data--csv', data.csv);
+      highed.setAttr(customizedOptions, 'data--googleSpreadsheetKey', undefined);
+      highed.setAttr(customizedOptions, 'data--itemDelimiter', data.itemDelimiter);
+      highed.setAttr(customizedOptions, 'data--firstRowAsNames', data.firstRowAsNames);
+      highed.setAttr(customizedOptions, 'data--dateFormat', data.dateFormat);
+      highed.setAttr(customizedOptions, 'data--decimalPoint', data.decimalPoint);
 
       if (customizedOptions && customizedOptions.series) {
         (highed.isArr(customizedOptions.series)
@@ -923,8 +923,6 @@ highed.ChartPreview = function(parent, attributes) {
           );
         });
       }
-      
-      customizedOptions.series = [];
 
       if (customizedOptions.xAxis) {
         (highed.isArr(customizedOptions.xAxis)
